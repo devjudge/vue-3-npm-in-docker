@@ -13,7 +13,7 @@ RUN ./pre-build.sh
 # Add extra docker commands here (if any)...
 
 # Build the app
-RUN wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/web-micro-project/javascript/vue/build.sh
+RUN wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/web-micro-project/javascript/vue/3/npm/build.sh
 RUN chmod 775 ./build.sh
 RUN ./build.sh
 
