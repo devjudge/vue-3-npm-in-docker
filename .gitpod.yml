@@ -1,18 +1,28 @@
-# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: 'Terminal 1'
     openMode: split-left
-    init: npm install # runs during prebuild
-    command: npm run serve
-  - name: 'Terminal 2'
-    openMode: split-right
     init: chmod 0755 ./chrome-test-setup.sh # runs during prebuild
     command: sh ./chrome-test-setup.sh
-
+  - name: 'Terminal 2'
+    openMode: split-right
+    command: |
+          gp ports await 9515
+          wget -qOdatabase-setup.sh https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/gitpod/env-setup-frontend.sh
+          chmod 0755 database-setup.sh
+          bash database-setup.sh node 12.22.1 use_npm serve 8080
+  - name: 'Terminal 3'
+    openMode: split-right
+    command: |
+          gp ports await 8080
+          wget -qOverify_connection_url.sh https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/gitpod/verify_connection_url.sh
+          chmod 0755 verify_connection_url.sh
+          bash verify_connection_url.sh 8080 WEB_MICRO_PROJECT && sleep 1 && exit
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 8080
+    name: "Frontend Server"
     onOpen: open-preview
     visibility: public
-  - port: 9915
-    visibility: public
+  - port: 9515
+    name: "Chrome Driver"
+    visibility: public  
